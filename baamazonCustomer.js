@@ -58,18 +58,24 @@ function start(current) {
       message:"How many would you like to purchase?"
     }
     ]).then(function(response) {
-      //query SELECT, find current stock of item ordered
-      //parseInt() current stock and qty of stock ordered
-      //find difference to get new stock... = newStock
-      //pass new stock into completeOrder() with id
-      //UPDATE in completeOrder() stock_quantity: newStock
-        if(current > response.quantityPrompt){
+
+      var orderId = parseInt(response.idSearch);
+      var orderIndex = orderId -1;
+      var orderQty = parseInt(response.quantityPrompt);
+
+      connection.query('SELECT* FROM products', function(err, res){
+        var currentQty = res[orderIndex].stock_quantity;
+
+      })
+     
+        if(currentQty > response.quantityPrompt){
           var qtyOrdered = response.quantityPrompt;
           var idOrdered = response.idSearch;
-          completeOrder(idOrdered, qtyOrdered);
+          completeOrder(idOrdered, qtyOrdered); // pass more in 
         }
       else {
         console.log("Insufficient Quantity!");
+        start();
 
 
       }
@@ -78,22 +84,50 @@ function start(current) {
 
 }
 
+
+
 function completeOrder(id, stock) {
+
+  var newQTY = parseInt(current) - order;
+  console.log("Updated QTY: " + newQTY);
+
     connection.query("UPDATE ? IN products WHERE ?",[
       {
-        stock_quantity: stock
+        stock_quantity: newQTY
       },
       {
         item_id: id
-      }] function(err, res) {
+      }
+      ],
+       function(err, res) {
     if (err) {
     throw err; 
-  } else {
-    current - response.idSearch
+    showCost(id, order)
+ } 
 
+});
+  }
+
+
+function showCost(id, qty){
+  console.log("Price of Product:" + res[0].price);
+  console.log("Quantity Ordered:" + qty);
+  var orderCost = parseInt(res[0].price) * qty;
+  console.log("Your total cost: $" + orderCost + '\n Thanks for Shopping!');
+ 
+ connection.end();
 
 }
 
-function 
 
-update quanitity from products where ? 
+
+
+
+ // //query SELECT, find current stock of item ordered
+ //      connection.query("SELECT * FROM currentQty")
+ //      //parseInt() current stock and qty of stock ordered
+ //      parseInt(currentQty, quantitiyPrompt)
+ //      //find difference to get new stock... = newStock
+ //      var NewStock = currentQty - quantityPrompt
+ //      //pass new stock into completeOrder() with id
+ //      //UPDATE in completeOrder() stock_quantity: newStock}
