@@ -45,6 +45,7 @@ function afterConnection() {
 
 
 function start(current) {
+  console.log("THIS IS CURRENT" + current);
   inquirer.prompt([
     {
       name: "idSearch",
@@ -63,15 +64,16 @@ function start(current) {
       var orderIndex = orderId -1;
       var orderQty = parseInt(response.quantityPrompt);
 
-      connection.query('SELECT* FROM products', function(err, res){
+      connection.query('SELECT * FROM products', function(err, res){
         var currentQty = res[orderIndex].stock_quantity;
 
       })
-     
-        if(currentQty > response.quantityPrompt){
+       console.log(typeof current);
+        if(current > response.quantityPrompt){
+          console.log("working");
           var qtyOrdered = response.quantityPrompt;
-          var idOrdered = response.idSearch;
-          completeOrder(idOrdered, qtyOrdered); // pass more in 
+          var idOrdered = orderIndex;
+          completeOrder(idOrdered, qtyOrdered, current);  
         }
       else {
         console.log("Insufficient Quantity!");
@@ -86,12 +88,12 @@ function start(current) {
 
 
 
-function completeOrder(id, stock) {
+function completeOrder(id, stock, current) {
 
-  var newQTY = parseInt(current) - order;
+  var newQTY = parseInt(current) - stock;
   console.log("Updated QTY: " + newQTY);
 
-    connection.query("UPDATE ? IN products WHERE ?",[
+    connection.query("UPDATE PRODUCTS SET ? WHERE ?",[
       {
         stock_quantity: newQTY
       },
@@ -106,6 +108,7 @@ function completeOrder(id, stock) {
  } 
 
 });
+
   }
 
 
