@@ -1,5 +1,5 @@
 # bamazon
 
-![shot1](iimages/bamazonstep1.png "one")
+![shot1](images/bamazonstep1.png "one")
 
-![shot2](screenshots/bamazonstep2.png "two")
+![shot2](images/bamazonstep2.png "two")
