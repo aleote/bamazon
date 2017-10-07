@@ -1,5 +1,5 @@
 # bamazon
-# cannot get this read me to accept my images, it is throwing a rejection when I push to github
+
 
 # Step 1: Listing all the available products with their respective properites.
 # Step 2: At the bottom of the products, it prompts the customer "What is the id of the item they are interested in?", they can input their desired id number.
